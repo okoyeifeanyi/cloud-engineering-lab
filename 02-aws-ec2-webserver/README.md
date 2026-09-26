@@ -164,6 +164,17 @@ I created a USD $5 monthly AWS budget to monitor the costs associated with my cl
 
 I used a small EC2 t3.micro instance for this project.
 
+### Verified Cleanup Results
+
+The EC2 instance was terminated, its EBS volume
+was deleted, and no Elastic IP remains allocated
+for this lab.
+
+The AWS bill displayed $0.00 at the time of review.
+I will check again for any delayed charges.
+
+[Read the project cleanup report](docs/project-cleanup.md)
+
 ### Stopping the instance
 
 When taking a break, I stop the EC2 instance through the AWS Management Console to avoid unnecessary instance-compute charges.
