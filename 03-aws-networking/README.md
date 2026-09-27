@@ -48,6 +48,10 @@ Planning stage. Infrastructure deployment and connectivity tests are pending.
 
 ## Verified Internet Gateway and Routing
 
+## Security Group and Connectivity Testing
+
+This is where we'll document your successful SSH and Nginx tests and your security-group incident.
+
 ### Internet Gateway
 
 Created an internet gateway named `cloud-lab-igw` and attached it to the custom VPC `cloud-network-lab`.
