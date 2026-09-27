@@ -90,3 +90,44 @@ Confirmed in the AWS console that the internet gateway is attached, both route t
 End-to-end connectivity testing is pending. No EC2 test instances have been deployed for this project yet.
 
 
+## Cost Management and Resource Cleanup
+
+### Temporary EC2 Instance Cleanup
+
+Following the successful public-subnet connectivity test and security-group incident exercise, the temporary EC2 instance was terminated to prevent unnecessary ongoing compute charges.
+
+The following results were verified in AWS:
+
+| Resource | Verified status |
+|---|---|
+| EC2 instance (`cloud-network-test-01`) | Terminated |
+| Root EBS volume | Deleted |
+| Elastic IPs allocated to this lab | None |
+| Other unexpected billable resources | None found |
+| Displayed AWS bill | USD $0.00 |
+
+### Retained Networking Infrastructure
+
+The following resources were retained for the next private-subnet networking exercise:
+
+- Custom VPC: `cloud-network-lab-vpc`
+- Public subnet: `cloud-public-subnet`
+- Private subnet: `cloud-private-subnet`
+- Internet gateway: `cloud-lab-igw`
+- Public route table: `cloud-public-rt`
+- Private route table: `cloud-private-rt`
+- Security group: `cloud-public-sg`
+
+The retained network has a public subnet with a default route to the internet gateway and a private subnet with a local VPC route only.
+
+### Cost Management
+
+A USD $5 monthly AWS budget was configured for the learning account.
+
+At the time of the cleanup review, the AWS bill displayed USD $0.00. AWS billing information may be delayed, so the account should be checked again after the latest usage has been processed.
+
+### Project Status
+
+The public-subnet deployment, SSH and HTTP connectivity tests, deliberate security-group failure, recovery and temporary EC2 cleanup are complete.
+
+Private-subnet connectivity testing remains the next project milestone.
