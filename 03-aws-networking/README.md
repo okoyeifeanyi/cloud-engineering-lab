@@ -131,3 +131,62 @@ At the time of the cleanup review, the AWS bill displayed USD $0.00. AWS billing
 The public-subnet deployment, SSH and HTTP connectivity tests, deliberate security-group failure, recovery and temporary EC2 cleanup are complete.
 
 Private-subnet connectivity testing remains the next project milestone.
+
+## Private Subnet Connectivity Testing
+
+A second phase of the networking lab tested access to an
+EC2 instance deployed inside the private subnet.
+
+### Bastion Host
+
+A temporary bastion host was deployed in the public subnet.
+
+- Bastion private IP: `10.0.1.88`
+- Public subnet: `10.0.1.0/24`
+- SSH access: Restricted to My IP
+- Security group: `cloud-bastion-sg`
+
+SSH from the Windows workstation to the bastion succeeded.
+
+### Private EC2 Instance
+
+A temporary EC2 instance was deployed in the private subnet.
+
+- Private IP: `10.0.2.88`
+- Private subnet: `10.0.2.0/24`
+- Public IPv4 address: None
+- Security group: `cloud-private-sg`
+- SSH source: `cloud-bastion-sg`
+
+The private instance was successfully reached from the
+Windows workstation through the bastion host using SSH
+ProxyCommand.
+
+The SSH private key remained on the Windows workstation
+and was not copied onto the bastion host.
+
+### Private Network Verification
+
+The following tests were completed from the private EC2
+instance:
+
+| Test | Result |
+|---|---|
+| Private IP | `10.0.2.88` |
+| SSH through bastion | Successful |
+| Linux default gateway | `10.0.2.1` |
+| Direct HTTPS access to `example.com` | Timed out |
+
+The private subnet route table contained only the local
+VPC route and did not contain a default internet route.
+
+This demonstrated that the private EC2 instance could be
+administered through the bastion while remaining without
+direct public internet access.
+
+### Evidence
+
+![Private server SSH access](screenshots/private-bastion-ssh.png)
+
+![Private server internet isolation](screenshots/private-no-internet.png)
+
