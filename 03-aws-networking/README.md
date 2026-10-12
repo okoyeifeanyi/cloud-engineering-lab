@@ -190,3 +190,40 @@ direct public internet access.
 
 ![Private server internet isolation](screenshots/private-no-internet.png)
 
+## Public-to-Private Application Traffic
+
+A temporary EC2 instance in the public subnet was used to access a web service running on an EC2 instance in the private subnet.
+
+### Test Architecture
+
+- Public EC2 private IP: `10.0.1.56`
+- Private EC2 private IP: `10.0.2.250`
+- Private EC2 public IPv4 address: None
+- Application port: TCP 80
+- Private server security group: `cloud-private-sg`
+
+The private server allowed HTTP traffic from instances associated with `cloud-bastion-sg`.
+
+From the public EC2 instance, `curl http://10.0.2.250` returned:
+
+`Hello from the private subnet`
+
+This verified that an EC2 instance in the public subnet could communicate with an application running in the private subnet using private VPC networking.
+
+### Controlled Failure and Recovery
+
+The HTTP inbound rule was temporarily removed from `cloud-private-sg`.
+
+After the rule was removed, an HTTP request from the public instance to the private instance timed out.
+
+The Python web server remained running and SSH connectivity to the private instance remained available.
+
+This demonstrated that the application itself was healthy and that the failure was caused by the security-group configuration.
+
+The HTTP rule was restored and `curl http://10.0.2.250` again returned:
+
+`Hello from the private subnet`
+
+Application connectivity was successfully restored.
+
+[Read Incident 02](docs/incident-02-private-http-security-group.md)
